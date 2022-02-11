@@ -1,2 +1,2 @@
 # verilog-alu
-General purpose alu implemented in verilog for programming an FPGA
+General purpose 32-bit alu implemented in verilog for programming an FPGA
