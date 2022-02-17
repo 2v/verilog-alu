@@ -48,9 +48,10 @@ module gpc(G_hl, P_hl, C_h, C_l, G_h, P_h, G_l, P_l, C_in);
     or(C_h, G_l, w1);
 
     assign C_l = C_in;
+
 endmodule
 
-module 8_bit_cla_gp(S, C, G, P, C0, A, B)
+module cla_gp_8_bit(S, C, G, P, C0, A, B);
     output [7:0] S; // sum output
     output [7:0] C; // carry out output, although we don't need this result
     output G, P;
@@ -77,7 +78,7 @@ module 8_bit_cla_gp(S, C, G, P, C0, A, B)
 
 
     // full_adder_gp(S, C, G, P, A, B, C0)
-    full_adder_gp fa_arr[7:0] (S, C, g_fa_out, p_fa_out, A, B, C_in)
+    full_adder_gp fa_arr[7:0] (S, C, g_fa_out, p_fa_out, A, B, C_in);
 
     // G_hl, P_hl, C_h, C_l, G_h, P_h, G_l, P_l, C_in);
 
