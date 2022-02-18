@@ -62,6 +62,7 @@ module cla_gp_8_bit(S, C, G, P, C0, A, B);
     input [7:0] A;
     input [7:0] B;
 
+    // TREE LEVEL 0 (FULL ADDERS):
     wire [7:0] g_fa_out;
     wire [7:0] p_fa_out;
 
@@ -101,4 +102,37 @@ module cla_gp_8_bit(S, C, G, P, C0, A, B);
     gpc GPC1_l3(G, P, c_in_level_2[1], c_in_level_2[0], g_hl_out_level_2[1], p_hl_out_level_2[1], g_hl_out_level_2[0], p_hl_out_level_2[0], C0);
 endmodule
 
- 
+module cla_32_bit(S, C, C0, A, B);
+    output [31:0] S; // sum output
+    output [31:0] C; // carry out output, although we don't need this result
+    wire G, P;
+
+    input C0;
+    input [31:0] A;
+    input [31:0] B;
+
+    // TREE LEVEL 0 (8-bit ADDERS):
+    wire [3:0] g_out_level_0;
+    wire [3:0] p_out_level_0;
+    wire [3:0] C_in; // array of carry ins for the 8-bit adders
+
+    // TREE LEVEL 1:
+    wire [1:0] g_hl_out_level_1;
+    wire [1:0] p_hl_out_level_1;
+    wire [1:0] c_in_level_1; // carries propogate up the tree while p and g propogate down the tree
+
+   
+    // A0 adder adds LSB, A3 adder adds MSB
+
+    cla_gp_8_bit A0(S[7:0], C[7:0], g_out_level_0[0], p_out_level_0[0], C_in[0], A[7:0], B[7:0]);
+    cla_gp_8_bit A1(S[15:8], C[15:8], g_out_level_0[1], p_out_level_0[1], C_in[1], A[15:8], B[15:8]);
+    cla_gp_8_bit A2(S[23:16], C[23:16], g_out_level_0[2], p_out_level_0[2], C_in[2], A[23:16], B[23:16]);
+    cla_gp_8_bit A3(S[31:24], C[31:24], g_out_level_0[3], p_out_level_0[3], C_in[3], A[31:24], B[31:24]);
+
+    // TREE LEVEL 1 GPC units
+    gpc GPC1_l1(g_hl_out_level_1[0], p_hl_out_level_1[0], C_in[1], C_in[0], g_out_level_0[1], p_out_level_0[1], g_out_level_0[0], p_out_level_0[0], c_in_level_1[0]);
+    gpc GPC2_l1(g_hl_out_level_1[1], p_hl_out_level_1[1], C_in[3], C_in[2], g_out_level_0[3], p_out_level_0[3], g_out_level_0[2], p_out_level_0[2], c_in_level_1[1]);
+
+    // TREE LEVEL 2 GPC
+    gpc GPC1_l2(G, P, c_in_level_1[1], c_in_level_1[0], g_hl_out_level_1[1], p_hl_out_level_1[1], g_hl_out_level_1[0], p_hl_out_level_1[0], C0);
+endmodule
