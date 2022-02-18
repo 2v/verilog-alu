@@ -11,7 +11,9 @@ module full_adder_gp(S, C, G, P, A, B, C0);
     and(G, A, B);
     xor(S, C0, s0);
     and(c1, s0, C0);
-    and(C, G, c1);
+    or(C, G, c1);
+
+    assign P = s0;
 endmodule
 
 module gp(G_hl, P_hl, G_h, P_h, G_l, P_l);
@@ -29,7 +31,7 @@ module gp(G_hl, P_hl, G_h, P_h, G_l, P_l);
     and(w1, P_h, G_l);
     or(G_hl, w1, G_h);
 
-    and(P_h1, P_h, P_l);
+    and(P_hl, P_h, P_l);
 endmodule
 
 module gpc(G_hl, P_hl, C_h, C_l, G_h, P_h, G_l, P_l, C_in);
@@ -96,7 +98,7 @@ module cla_gp_8_bit(S, C, G, P, C0, A, B);
         g_hl_out_level_1[3], p_hl_out_level_1[3], g_hl_out_level_1[2], p_hl_out_level_1[2], c_in_level_2[1]);
 
     // LEVEL 3 GPC MODULE
-    gpc GPC1_l3(G, P, c_in_level_2[1], c_in_level_2[0], g_hl_out_level_2[1], p_hl_out_level_2[1], g_hl_out_level_2[0], g_hl_out_level_2[0], C0);
+    gpc GPC1_l3(G, P, c_in_level_2[1], c_in_level_2[0], g_hl_out_level_2[1], p_hl_out_level_2[1], g_hl_out_level_2[0], p_hl_out_level_2[0], C0);
 endmodule
 
  
