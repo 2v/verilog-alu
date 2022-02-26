@@ -1,10 +1,10 @@
 // gate-level description of 4 bit shifter
 
 module 4_bit_shift(
-    output [4:0]        S;
+    output [3:0]        S;
     output              bb_right, bb_left;
 
-    input [4:0]         D;
+    input [3:0]         D;
     input               shift_in_right, shift_in_left;
     input               select; // if 0, shift left, if 1, shift right
 );
@@ -32,4 +32,3 @@ or M11(S[3], w5, shift_in_left);
 
 
 endmodule
-
