@@ -52,10 +52,9 @@ initial begin
         num_correct = num_correct + 1;
       end else begin
         num_wrong = num_wrong + 1;
+        $display($time, " ASSERTION ERROR: input = %b, check = %b, actual = %b, shift_in_left = %b, shift_in_right = %b, D = %b", i, check, {bb_left, S, bb_right}, shift_in_left, shift_in_right, D);
       end
 
-        // uncomment to debug
-         //$display($time, " input = %b check = %b = actual = %b shift_in_left = %b shift_in_right = %b D = %b", i, check, {bb_left, S, bb_right}, shift_in_left, shift_in_right, D);
     end
   end
   // print the final counter values
