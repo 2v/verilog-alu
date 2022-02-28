@@ -1,6 +1,6 @@
 // gate-level description of 4 bit shifter
 
-module 8_bit_shift(
+module shift_8_bit(
     output [7:0]        S;
     output              bb_right, bb_left;
 
